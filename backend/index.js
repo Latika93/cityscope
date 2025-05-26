@@ -15,28 +15,43 @@ const userRoutes = require('./routes/users');
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-
-    // "cloudinary": "^2.6.1",
+// Additional CORS headers for preflight requests
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
 // CORS configuration
 app.use(cors({
   origin: function (origin, callback) {
+    console.log('CORS Origin:', origin);
+    
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
     const allowedOrigins = [
+      'http://localhost:3000',
       'http://localhost:3001',
       'https://cityscope-okye.vercel.app',
-      'https://cityscope-gsbp.vercel.app/',
-      'https://cityscope-okye.vercel.app/api/',
+      'https://cityscope-gsbp.vercel.app',
       process.env.FRONTEND_URL
     ].filter(Boolean);
+    
+    console.log('Allowed Origins:', allowedOrigins);
     
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
     
-    callback(new Error('Not allowed by CORS'));
+    console.log('CORS Error: Origin not allowed:', origin);
+    callback(new Error(`Not allowed by CORS. Origin: ${origin}`));
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
