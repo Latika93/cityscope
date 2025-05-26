@@ -27,6 +27,7 @@ app.use(cors({
     const allowedOrigins = [
       'http://localhost:3001',
       'https://cityscope-okye.vercel.app',
+      'https://cityscope-gsbp.vercel.app/',
       process.env.FRONTEND_URL
     ].filter(Boolean);
     
