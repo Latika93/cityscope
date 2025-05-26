@@ -25,8 +25,8 @@ app.use(cors({
     if (!origin) return callback(null, true);
     
     const allowedOrigins = [
-    //   'http://localhost:3000',
-    //   'http://127.0.0.1:3000',
+      'http://localhost:3001',
+      'https://cityscope-okye.vercel.app',
       process.env.FRONTEND_URL
     ].filter(Boolean);
     
