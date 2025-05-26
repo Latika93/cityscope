@@ -15,6 +15,9 @@ const userRoutes = require('./routes/users');
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+
+    // "cloudinary": "^2.6.1",
+
 // CORS configuration
 app.use(cors({
   origin: function (origin, callback) {
